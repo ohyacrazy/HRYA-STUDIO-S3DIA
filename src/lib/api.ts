@@ -135,9 +135,9 @@ export const OWNER_NAMES: Record<number, string> = {
 
 // Canonical owner avatars — single source of truth, used everywhere (Login, Dashboard broadcast picker, etc.)
 export const OWNER_IMAGES: Record<string, string> = {
-  Youssef: 'https://r2.image-upload.app/ptImg/l2wozdov.png',
-  Nexus:   'https://r2.image-upload.app/ptImg/o4l3MUSc.png',
-  Luna:    'https://r2.image-upload.app/ptImg/1bhmdfw6A.png',
+  Youssef: 'puplic/images/ycontent.png',
+  Nexus:  'puplic/images/jcontent.png',
+  Luna:    'puplic/images/wcontent.png',
 };
 
 export const COUNTRY_FLAGS: Record<string, string> = {

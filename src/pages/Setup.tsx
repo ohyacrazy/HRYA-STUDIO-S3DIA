@@ -453,7 +453,7 @@ MsgEvent.OnClientEvent:Connect(function(message, duration, sender, senderColor)
 end)`;
 
 // Setup is restricted to Youssef only
-const SETUP_PASSWORD = 'ilovenoran';
+const SETUP_PASSWORD = 'ilovenoranforever';
 
 export default function Setup() {
   const [authorized, setAuthorized] = useState(() => {

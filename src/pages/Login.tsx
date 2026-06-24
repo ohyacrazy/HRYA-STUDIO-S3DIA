@@ -12,9 +12,9 @@ const OWNER_PASSWORDS: Record<string, string> = {
 };
 
 const OWNER_COLORS: Record<string, string> = {
-  Nexus:   '#56d6ff',
+  Nexus:   '#ffffff',
   Luna:    '#ff86ff',
-  Youssef: '#7c5cff',
+  Youssef: '#2e2e2e',
 };
 
 const OWNER_TITLES: Record<string, string> = {

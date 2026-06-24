@@ -18,9 +18,24 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+<<<<<<< HEAD
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
       - uses: actions/deploy-pages@v4
+=======
+      - run: npm ci --legacy-peer-deps
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+      - uses: actions/deploy-pages@v4
+        id: deployment
+>>>>>>> c9faea04f31fe75a6f2da3ffe465a279d0a170a8

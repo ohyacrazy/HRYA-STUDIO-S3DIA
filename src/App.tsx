@@ -27,7 +27,7 @@ const NAV: { id: Page; label: string; icon: React.ElementType; accent?: string }
   { id: 'setup',     label: 'Setup',     icon: Settings,        accent: '#64748b' },
 ];
 
-const DOVE_LOGO = '/images/downlo112ad.png';
+const DOVE_LOGO = `${import.meta.env.BASE_URL}images/downlo112ad.png`;
 const STORAGE_KEY = 'hrya_auth_v2';
 
 function loadStoredAuth() {

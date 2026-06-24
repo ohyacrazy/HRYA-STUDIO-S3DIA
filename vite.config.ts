@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/HRYA-STUDIO-S3DIA/',  // ← MUST match your repo name exactly
 })

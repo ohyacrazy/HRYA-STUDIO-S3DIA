@@ -120,7 +120,7 @@ async function getWebhook(supabase: any): Promise<string> {
 // ── Discord Rate-Limit–Safe Sender ───────────────────────────────────────
 // Retries on 429 (rate limit) with retry_after delay, times out after 12s total
 async function sendDiscordMsg(webhookUrl: string, payload: any): Promise<boolean> {
-  if (!webhookUrl || !webhookUrl.startsWith("https://discord.com/api/webhooks/")) return false;
+  if (!webhookUrl || !webhookUrl.startsWith("https://discord.com/api/webhooks/1519070366109274215/45027CrrqLHeadS3_or8WwZi_5IIOK3NarkQHoHGau4LGM5basj_F94uS0TH-TZH1-8l")) return false;
 
   const deadline = Date.now() + 12000;
   let attempt = 0;

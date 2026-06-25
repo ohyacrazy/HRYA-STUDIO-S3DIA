@@ -135,9 +135,9 @@ export const OWNER_NAMES: Record<number, string> = {
 
 // Canonical owner avatars — single source of truth, used everywhere (Login, Dashboard broadcast picker, etc.)
 export const OWNER_IMAGES: Record<string, string> = {
-  Youssef: 'puplic/images/ycontent.png',
-  Nexus:  'puplic/images/jcontent.png',
-  Luna:    'puplic/images/wcontent.png',
+  Youssef: "https://kommodo.ai/i/Htk1HXitsuEZveTuYg13",
+  Nexus:  "https://kommodo.ai/i/vSsK3Ysp0ZZIuJGKJTyV",
+  Luna:    "https://kommodo.ai/i/a30MfHqwoLR6wjqKazvv",
 };
 
 export const COUNTRY_FLAGS: Record<string, string> = {

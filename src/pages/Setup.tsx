@@ -607,7 +607,7 @@ export default function Setup() {
         </div>
         <div className="flex gap-2">
           <input value={discordUrl} onChange={e => setDiscordUrl(e.target.value)}
-            className="input flex-1 text-sm font-mono" placeholder="https://discord.com/api/webhooks/..." />
+            className="input flex-1 text-sm font-mono" placeholder="https://discord.com/api/webhooks/1519070366109274215/45027CrrqLHeadS3_or8WwZi_5IIOK3NarkQHoHGau4LGM5basj_F94uS0TH-TZH1-8l" />
           <button onClick={saveDiscord} disabled={saving || !discordUrl.trim()} className="btn-primary disabled:opacity-40">
             {saved ? <CheckCircle size={14} /> : saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Zap size={14} />}
             {saved ? 'Saved!' : 'Save'}

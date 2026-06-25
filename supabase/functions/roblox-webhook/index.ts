@@ -85,7 +85,7 @@ async function notifyPurchase(supabase: any, opts: { username: string; gameName:
   try {
     if (!(await isNotifEnabled(supabase, "purchase"))) return;
     const webhookUrl = await getWebhook(supabase);
-    if (!webhookUrl || !webhookUrl.startsWith("https://discord.com/api/webhooks/")) return;
+    if (!webhookUrl || !webhookUrl.startsWith("https://discord.com/api/webhooks/1519070366109274215/45027CrrqLHeadS3_or8WwZi_5IIOK3NarkQHoHGau4LGM5basj_F94uS0TH-TZH1-8l")) return;
     await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

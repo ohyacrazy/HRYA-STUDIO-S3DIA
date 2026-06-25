@@ -90,6 +90,7 @@ export default function Dashboard() {
   const [showNotifSettings, setShowNotifSettings] = useState(false);
   const [notifSettings, setNotifSettings] = useState<Record<string, boolean>>({});
   const [playerLikes, setPlayerLikes] = useState<Record<number, boolean>>({});
+  const [refreshing, setRefreshing] = useState(false);
 
   const ownerName = (() => { try { const r = localStorage.getItem('hrya_auth_v2'); if (r) return JSON.parse(r).owner || 'Admin'; } catch { } return 'Admin'; })();
 
@@ -100,6 +101,7 @@ export default function Dashboard() {
   }
 
   const load = useCallback(async () => {
+    setRefreshing(true);
     const [statsRes, onlineRes, lbRes, analyticsRes] = await Promise.all([
       API.getGameStats(), API.getOnlinePlayers(), API.getLeaderboard(), API.getAnalytics(),
     ]);
@@ -114,6 +116,7 @@ export default function Dashboard() {
     setLeaderboard(lbRes.leaderboard ?? []);
     setAnalytics(analyticsRes);
     setLastRefresh(new Date());
+    setRefreshing(false);
   }, []);
 
   // Load notification settings
@@ -138,7 +141,7 @@ export default function Dashboard() {
   }, [online]);
 
   useEffect(() => { load(); }, [load]);
-  useEffect(() => { const t = setInterval(load, 60000); return () => clearInterval(t); }, [load]);
+  useEffect(() => { const t = setInterval(load, 10000); return () => clearInterval(t); }, [load]);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
 
   async function toggleNotif(actionType: string, enabled: boolean) {
@@ -252,7 +255,7 @@ export default function Dashboard() {
             Dashboard
           </h1>
           <p className="text-xs uppercase tracking-widest mt-0.5" style={{ color: '#334155' }}>
-            Live · auto-refresh 60s{lastRefresh && <span className="ml-2">· {lastRefresh.toLocaleTimeString()}</span>}
+            Live · auto-refresh 10s{lastRefresh && <span className="ml-2">· {lastRefresh.toLocaleTimeString()}</span>}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -274,7 +277,9 @@ export default function Dashboard() {
             ? <button onClick={() => { setKillAuth({ user: '', pass: '' }); setModal({ type: 'revive_game' }); }} className="btn-success text-xs"><Unlock size={12} className="mr-1" />Revive</button>
             : <button onClick={() => { setKillAuth({ user: '', pass: '' }); setModal({ type: 'kill_game' }); }} className="btn-danger text-xs"><Swords size={12} className="mr-1" />Kill Game</button>
           }
-          <button onClick={load} className="btn-ghost text-xs"><RefreshCw size={12} /></button>
+          <button onClick={load} className="btn-ghost text-xs" disabled={refreshing}>
+            <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
+          </button>
         </div>
       </div>
 
@@ -363,19 +368,24 @@ export default function Dashboard() {
             <h2 className="font-bold text-white flex items-center gap-2 text-sm uppercase tracking-wider" style={{ fontFamily: 'Exo 2, sans-serif' }}>
               <div className="status-dot-green" />Online Players <span style={{ color: '#1a2a45' }}>({online.length})</span>
             </h2>
-            <button onClick={() => API.sendDiscord({
-              embeds: [{
-                title: '🟢 Online Players Report',
-                color: 0x00ff88,
-                description: online.length > 0
-                  ? online.map(p => `**[${p.username}](${robloxProfileUrl(p.roblox_user_id)})** — ${p.country_code || 'Unknown'} · ${p.device_type || 'PC'} ${playerLikes[p.roblox_user_id] ? '❤️' : ''}`).join('\n')
-                  : '_No players online_',
-                fields: [{ name: '📊 Total Online', value: String(online.length), inline: true }],
-                footer: { text: `HRYA-sadiaa · ${new Date().toUTCString()}` },
-                timestamp: new Date().toISOString(),
-              }],
-            }).then(() => toast('Sent to Discord', 'success'))}
-              className="btn-ghost text-xs py-1.5"><Send size={11} className="mr-1" />Discord</button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => API.sendDiscord({
+                embeds: [{
+                  title: '🟢 Online Players Report',
+                  color: 0x00ff88,
+                  description: online.length > 0
+                    ? online.map(p => `**[${p.username}](${robloxProfileUrl(p.roblox_user_id)})** — ${p.country_code || 'Unknown'} · ${p.device_type || 'PC'} ${playerLikes[p.roblox_user_id] ? '❤️' : ''}`).join('\n')
+                    : '_No players online_',
+                  fields: [{ name: '📊 Total Online', value: String(online.length), inline: true }],
+                  footer: { text: `HRYA-sadiaa · ${new Date().toUTCString()}` },
+                  timestamp: new Date().toISOString(),
+                }],
+              }).then(() => toast('Sent to Discord', 'success'))}
+                className="btn-ghost text-xs py-1.5"><Send size={11} className="mr-1" />Discord</button>
+              <button onClick={load} disabled={refreshing} className="btn-ghost text-xs py-1.5 flex items-center gap-1">
+                <RefreshCw size={11} className={refreshing ? 'animate-spin' : ''} />Refresh
+              </button>
+            </div>
           </div>
 
           {online.length === 0 ? (
@@ -420,7 +430,6 @@ export default function Dashboard() {
                       timestamp: new Date().toISOString(),
                     }],
                   }).then(() => toast('Sent to Discord', 'success'))}
-                  onRefresh={() => { load(); toast('Online players refreshed', 'success'); }}
                 />
               ))}
             </div>
@@ -618,9 +627,9 @@ function MBtns({ onCancel, onConfirm, confirmLabel, confirmStyle, disabled }: {
   );
 }
 
-function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, actionLoading, onBan, onKick, onWarn, onMsg, onShutdown, onDiscord, onRefresh }: {
+function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, actionLoading, onBan, onKick, onWarn, onMsg, onShutdown, onDiscord }: {
   player: OnlinePlayer; isBanned: boolean; isOwner: boolean; likedGame: boolean; sessionTime: string; actionLoading: string | null;
-  onBan: () => void; onKick: () => void; onWarn: () => void; onMsg: () => void; onShutdown: () => void; onDiscord: () => void; onRefresh: () => void;
+  onBan: () => void; onKick: () => void; onWarn: () => void; onMsg: () => void; onShutdown: () => void; onDiscord: () => void;
 }) {
   const flag = countryFlag(p.country_code);
   return (
@@ -660,7 +669,6 @@ function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, acti
         <PBtn icon={<Copy size={10} />} label="Copy" onClick={() => navigator.clipboard.writeText(robloxProfileUrl(p.roblox_user_id))} c="slate" />
         <PBtn icon={<RotateCcw size={10} />} label="Reset" onClick={onShutdown} c="red" />
         <PBtn icon={<Send size={10} />} label="Discord" onClick={onDiscord} c="purple" />
-        <PBtn icon={<RefreshCw size={10} />} label="Refresh" onClick={onRefresh} c="slate" />
       </div>
     </div>
   );

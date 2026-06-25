@@ -14,7 +14,7 @@ const OWNER_PASSWORDS: Record<string, string> = {
 const OWNER_COLORS: Record<string, string> = {
   Nexus:   '#ffffff',
   Luna:    '#ff86ff',
-  Youssef: '#2e2e2e',
+  Youssef: '#ff0000',
 };
 
 const OWNER_TITLES: Record<string, string> = {

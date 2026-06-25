@@ -32,7 +32,7 @@ const DEVICE_ICONS: Record<string, React.ReactNode> = {
 };
 const BROADCAST_CHARS = ['Nexus', 'Luna', 'Youssef'];
 const OWNER_COLORS_MAP: Record<string, string> = {
-  Nexus: '#6c3ce1', Luna: '#00d4ff', Youssef: '#00ff88',
+  Nexus: '#f9f9f9', Luna: '#ff00f2', Youssef: '#fe0000',
 };
 
 const NOTIF_LABELS: Record<string, { label: string; icon: string }> = {
@@ -70,28 +70,7 @@ function GlowStat({ label, value, icon, color, glowClass, suffix = '', subLabel 
   );
 }
 
-/* ── In-game–style notification preview ─────────────────────────────────── */
-function InGamePreview({ message, type, sender, color }: { message: string; type: 'warn' | 'msg'; sender: string; color: string }) {
-  return (
-    <div className="rounded-xl overflow-hidden" style={{ background: type === 'warn' ? 'rgba(18,6,10,0.95)' : 'rgba(8,12,24,0.95)', border: `1px solid ${color}40` }}>
-      {/* Top accent bar */}
-      <div className="h-0.5 w-full" style={{ background: color }} />
-      <div className="p-3">
-        <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest" style={{ color }}>{type === 'warn' ? 'WARNING' : 'MESSAGE'}</span>
-          <span className="text-[10px]" style={{ color: '#213354' }}>|</span>
-          <span className="text-[10px]" style={{ color: '#334155' }}>From: {sender}</span>
-        </div>
-        <p className="text-white text-xs font-medium">{message || 'Preview of your message...'}</p>
-        {/* Progress bar */}
-        <div className="mt-2 h-0.5 rounded-full overflow-hidden" style={{ background: '#1a2a45' }}>
-          <div className="h-full rounded-full" style={{ width: '70%', background: color }} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
+ 
 export default function Dashboard() {
   const [online, setOnline] = useState<OnlinePlayer[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderEntry[]>([]);
@@ -497,10 +476,8 @@ export default function Dashboard() {
                 <MHead icon={<AlertTriangle size={18} style={{ color: '#ffd60a' }} />} iconBg="rgba(255,214,10,0.1)" iconBorder="rgba(255,214,10,0.25)" title="Warn Player" sub={modal.player?.username || ''} />
                 <ByLine who={ownerName} />
                 <input value={modalInput} onChange={e => setModalInput(e.target.value)} className="input mb-3" placeholder="Custom message (optional)" />
-                {/* In-game preview */}
                 <div className="mb-4">
-                  <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}>In-game preview</p>
-                  <InGamePreview message={modalInput || 'Warning: Follow the rules.'} type="warn" sender="Moderator" color="#ffd60a" />
+                  <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}></p>
                 </div>
                 <MBtns onCancel={() => setModal({ type: null })} onConfirm={() => doWarn(modal.player!, modalInput)}
                   confirmLabel="Warn" confirmStyle={{ background: 'linear-gradient(135deg, #ffd60a, #ffea50)', color: '#000' }} />
@@ -512,11 +489,9 @@ export default function Dashboard() {
                 <MHead icon={<MessageSquare size={18} style={{ color: '#00d4ff' }} />} iconBg="rgba(0,212,255,0.1)" iconBorder="rgba(0,212,255,0.25)" title={`Message ${modal.player?.username}`} sub="Private message" />
                 <ByLine who={ownerName} />
                 <textarea value={modalInput} onChange={e => setModalInput(e.target.value)} className="input mb-3 resize-none h-20" placeholder="Your message..." />
-                {/* In-game preview */}
                 {modalInput && (
                   <div className="mb-4">
-                    <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}>In-game preview</p>
-                    <InGamePreview message={modalInput} type="msg" sender={ownerName} color="#00d4ff" />
+                    <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}></p>
                   </div>
                 )}
                 <MBtns onCancel={() => setModal({ type: null })} onConfirm={() => doMsg(modal.player!, modalInput)}
@@ -557,11 +532,9 @@ export default function Dashboard() {
 
                 <textarea value={modalInput} onChange={e => setModalInput(e.target.value)} className="input mb-3 resize-none h-20" placeholder="Broadcast message..." />
 
-                {/* In-game preview */}
                 {modalInput && (
                   <div className="mb-4">
-                    <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}>In-game preview</p>
-                    <InGamePreview message={modalInput} type="msg" sender={broadcastChar} color={broadcastColor} />
+                    <p className="text-xs mb-2 uppercase tracking-widest" style={{ color: '#334155' }}></p>
                   </div>
                 )}
 

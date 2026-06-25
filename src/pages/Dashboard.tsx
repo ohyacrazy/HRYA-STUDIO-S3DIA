@@ -419,7 +419,9 @@ export default function Dashboard() {
                       footer: { text: `Reported by ${ownerName} · HRYA-sadiaa` },
                       timestamp: new Date().toISOString(),
                     }],
-                  }).then(() => toast('Sent to Discord', 'success'))} />
+                  }).then(() => toast('Sent to Discord', 'success'))}
+                  onRefresh={() => { load(); toast('Online players refreshed', 'success'); }}
+                />
               ))}
             </div>
           )}
@@ -616,9 +618,9 @@ function MBtns({ onCancel, onConfirm, confirmLabel, confirmStyle, disabled }: {
   );
 }
 
-function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, actionLoading, onBan, onKick, onWarn, onMsg, onShutdown, onDiscord }: {
+function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, actionLoading, onBan, onKick, onWarn, onMsg, onShutdown, onDiscord, onRefresh }: {
   player: OnlinePlayer; isBanned: boolean; isOwner: boolean; likedGame: boolean; sessionTime: string; actionLoading: string | null;
-  onBan: () => void; onKick: () => void; onWarn: () => void; onMsg: () => void; onShutdown: () => void; onDiscord: () => void;
+  onBan: () => void; onKick: () => void; onWarn: () => void; onMsg: () => void; onShutdown: () => void; onDiscord: () => void; onRefresh: () => void;
 }) {
   const flag = countryFlag(p.country_code);
   return (
@@ -658,6 +660,7 @@ function PlayerCard({ player: p, isBanned, isOwner, likedGame, sessionTime, acti
         <PBtn icon={<Copy size={10} />} label="Copy" onClick={() => navigator.clipboard.writeText(robloxProfileUrl(p.roblox_user_id))} c="slate" />
         <PBtn icon={<RotateCcw size={10} />} label="Reset" onClick={onShutdown} c="red" />
         <PBtn icon={<Send size={10} />} label="Discord" onClick={onDiscord} c="purple" />
+        <PBtn icon={<RefreshCw size={10} />} label="Refresh" onClick={onRefresh} c="slate" />
       </div>
     </div>
   );

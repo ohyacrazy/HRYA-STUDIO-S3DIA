@@ -27,7 +27,7 @@ const NAV: { id: Page; label: string; icon: React.ElementType; accent?: string }
   { id: 'setup',     label: 'Setup',     icon: Settings,        accent: '#64748b' },
 ];
 
-const DOVE_LOGO = `${import.meta.env.BASE_URL}https://kommodo.ai/i/B2pLpgAMoJOibhac9Jlk`;
+const DOVE_LOGO = `${import.meta.env.BASE_URL}https://plain-weur-prod-public.komododecks.com/202606/24/B2pLpgAMoJOibhac9Jlk/image.png`;
 const STORAGE_KEY = 'hrya_auth_v2';
 
 function loadStoredAuth() {

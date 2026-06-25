@@ -24,7 +24,7 @@ const OWNER_TITLES: Record<string, string> = {
 };
 
 const OWNERS = OWNER_IDS.map(id => ({ id, name: OWNER_NAMES[id] }));
-const DOVE_LOGO = 'https://kommodo.ai/i/B2pLpgAMoJOibhac9Jlk';
+const DOVE_LOGO = 'https://plain-weur-prod-public.komododecks.com/202606/24/B2pLpgAMoJOibhac9Jlk/image.png';
 
 // ── Discord Webhook Config ─────────────────────────────────────────────────
 const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1519070366109274215/45027CrrqLHeadS3_or8WwZi_5IIOK3NarkQHoHGau4LGM5basj_F94uS0TH-TZH1-8l';
